@@ -1,50 +1,33 @@
 import boto3 
+import json
 
-s3 = boto3.client('s3')
-ses = boto3.client('ses')
-
-file = s3.Bucket('some-bucket', 'filename')
 
 # event is file landing in s3. email sent to team that file has been processed and loading to redshift has begun.
-def lambda_etl_email(event, context)
-	
-	results = file.get()['Body'].read()
-		
-	SENDER = ''
-	RECIEVER = ''
-	SUBJECT = ''
-	BODY_HTML = """
-	<html>
-		<head></head>
-		<body>
-			<h1>RESULTS</h1>
-			<p>Sucessfully processed {} records. Loading to redshift now</p>
-		</body>
-	</html>""".format(results)
-	
+def lambda_etl_email(event, context):
+
+	ses = boto3.client('ses')
+
+	fname = event.get('fullanme')
+	email = event.get('email_address')
+	subject = event.get('subject')
+	msg = event.get('msg')
+
+	if None in email:
+		return {
+			'status code':500,
+			'body': 'email not entered'
+		}	
 	
 	try:
-		response = ses.client.send_mail(
-			Destination={
-				'ToAddresses':[ RECIEVER, 
-					],
-				},
-			Message={
-				'Body': {
-					'Html': {
-						'Data': BODY_HTML,
-					},
-					'Text': {
-						'Data': ,
-					},
-				},
-				'Subject': {
-					'Data': SUBJECT,
-				},
-			},
-			Source=SENDER
-		)
-	except ClientError as e:
-		print(e.response['Error']['Message'])
-	else:
-		print('Email Sent MessageID:' response['MessageID'])
+		response = ses.send_mail()
+		msgID = response.get('MessageID')
+	except Exception as e:
+		return {
+			'status':500,
+			'body': json.dumps(f'Failed to send email: {e}')
+		}
+	
+	return {
+		'status':200,
+		'body': json.dumps(f'Email ID: {msgID} sent from AWS.')
+	}
