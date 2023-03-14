@@ -1,33 +1,25 @@
-AWSTemplateFormatVersion: '2010-09-09'
-
-Description: 'resources for data lake platform'
 
 Resources:
-
   crmTransformationRawBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
       VersioningConfiguration:
         Status: Enabled
-
   crmTransformationTransformaedBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
       VersioningConfiguration:
         Status: Enabled
-
   crmTransformationConfirmedBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
       VersioningConfiguration:
         Status: Enabled
-
   crmTransformationEnrichedBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
       VersioningConfiguration:
         Status: Enabled
-
   crmTransformationProdRedshiftCluster:
     Type: 'AWS::Redshift::Cluster'
     Properties:
@@ -39,44 +31,8 @@ Resources:
       Encypted: 'True'
   crmTransformationEMRTransform:
     Type: 'AWS::EMR::Cluster'
-    Properties:
-      JobFlowRole: !Ref emrEc2role
-      ServiceRole: !REf emrRole
-
   crmTransformationPipelineStepFunctions:
     Type: 'AWS::StepFunctions::StateMachine'
     Properties:
       RoleArn: ''
       DefinitionS3Location: ''
-
-  emrRole:
-    # policy to give complete control of emr
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2008-10-17
-        Statement:
-          - Sid: ''
-            Effect: Allow
-            Principal:
-              Service: !Ref ElasticMapReducePrincipal
-            Action: 'sts:AssumeRole'
-      Path: /
-      ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole'
- 
-  emrEc2role:
-    # policy to give complete control of ec2
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2008-10-17
-        Statement:
-          - Sid: ''
-            Effect: Allow
-            Principal:
-              Service: !Ref Ec2Principal
-            Action: 'sts:AssumeRole'
-      Path: /
-      ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role'
