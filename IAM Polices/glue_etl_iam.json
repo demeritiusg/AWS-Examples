@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:GetClassifier*",
+                "glue:GetJobRun*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:Get*"
+            ],
+            "Resource": [
+                "arn:aws:glue:us-east-1:***:catalog",
+                "arn:aws:glue:us-east-1:***:database/prod",
+                "arn:aws:glue:us-east-1:***:table/prod/"
+            ]
+        }
+    ]
+}
