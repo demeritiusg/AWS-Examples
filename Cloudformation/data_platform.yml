@@ -1,4 +1,6 @@
 
+#wtf is this trying to do?
+
 Resources:
 
   crmTransformationRawBucket:
@@ -34,6 +36,7 @@ Resources:
       NodeType: 'dc1.large'
       ClusterType: 'single-node'
       Encypted: 'True'
+      
   crmTransformationEMRTransform:
     Type: 'AWS::EMR::Cluster'
     Properties:
@@ -46,6 +49,8 @@ Resources:
       RoleArn: ''
       DefinitionS3Location: ''
 
+
+#can be trashed
   emrRole:
     # policy to give complete control of emr
     Type: AWS::IAM::Role
@@ -62,6 +67,7 @@ Resources:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole'
  
+#can be trashed
   emrEc2role:
     # policy to give complete control of ec2
     Type: AWS::IAM::Role

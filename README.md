@@ -9,3 +9,7 @@
 ~~<ins>Kinessis ETL~~
 
 ~~<ins>Data lake (with lakeformation)~~
+
+~~<ins>Cloudformation~~
+
+~~<ins>CDK~~
