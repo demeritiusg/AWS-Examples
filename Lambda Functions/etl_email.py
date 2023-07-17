@@ -8,7 +8,6 @@ def nyc_trip_email(event, context):
 	aws_region = 'us-east-1'
 	CHARSET = "UTF-8"
 
-	# fname = event.get('fullanme')
 	recipient = event['email_address']
 	sender = event['automated_inbox']
 	subject = event['email_subject']
