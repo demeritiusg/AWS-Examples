@@ -1,33 +1,50 @@
 import boto3 
 import json
+from botocore.exceptions import ClientError
 
 
-# event is file landing in s3. email sent to team that file has been processed and loading to redshift has begun.
-def lambda_etl_email(event, context):
+def nyc_trip_email(event, context):
 
-	ses = boto3.client('ses')
+	aws_region = 'us-east-1'
+	CHARSET = "UTF-8"
 
-	fname = event.get('fullanme')
-	email = event.get('email_address')
-	subject = event.get('subject')
-	msg = event.get('msg')
+	# fname = event.get('fullanme')
+	recipient = event['email_address']
+	sender = event['automated_inbox']
+	subject = event['email_subject']
+	msg = event['event_msg']
 
-	if None in email:
+	if None in recipient:
 		return {
 			'status code':500,
-			'body': 'email not entered'
+			'body': 'Invailed Email Address'
 		}	
 	
+	ses = boto3.client('ses', region = aws_region)
+
 	try:
-		response = ses.send_mail()
-		msgID = response.get('MessageID')
-	except Exception as e:
-		return {
-			'status':500,
-			'body': json.dumps(f'Failed to send email: {e}')
-		}
+		response = ses.send_mail(
+			Destination={
+				'ToAddress':[
+					recipient
+				]
+			},
+			Message={
+				'Body': {
+					'Text': {
+						'Data': msg,
+						'Charset': CHARSET
+					},
+				},
+				'Subject': {
+					subject
+				},				
+			},
+			Source=sender
+		)
+		msgID = response['MessageID']
 	
-	return {
-		'status':200,
-		'body': json.dumps(f'Email ID: {msgID} sent from AWS.')
-	}
+	except ClientError as e:
+		print(e.response['Error']['Message'])
+	else:
+		print(f'message {msgID} sent!')
