@@ -4,6 +4,8 @@ from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
+from pyspark.sql.functions import column
+from pyspark.context import SparkContext
 
 args = getResolvedOptions(sys.argv, ['glue_job', 'obj_key'])
 obj_key = args['obj_key']
@@ -29,21 +31,17 @@ read_data = gc.create_dynamic_frame.from_options(
 	format_options={'multiline': False},
 	)
 
+#transform into a spark df
+spark_df = read_data.toDF()
 
-transform_data = ApplyMapping.apply(
-	frame=read_data,
-	mappings=[
-		()
-		
-		]
-	)
+#drop na values
+datasource = spark_df.dropna(thresh=4)
 
-gc.write_dynamic_frame.from_options(
-	frame=transform_data,
-	connection_type='s3',
-	connection_options={'path': output_path, },
-	format= 'parquet',
-	)
+#replcaing missing values
+clean_dataDF = datasource.fillna(value='n/a_ride', subset='tpep_pickup_hour')
+
+
+
 
 # finish job
 job.commit()
