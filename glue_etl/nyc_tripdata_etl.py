@@ -4,7 +4,7 @@ from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
-from pyspark.sql.functions import column
+from pyspark.sql.functions import *
 from pyspark.context import SparkContext
 
 args = getResolvedOptions(sys.argv, ['glue_job', 'obj_key'])
@@ -38,7 +38,10 @@ spark_df = read_data.toDF()
 datasource = spark_df.dropna(thresh=4)
 
 #replcaing missing values
-clean_dataDF = datasource.fillna(value='n/a_ride', subset='tpep_pickup_hour')
+pickup_clean_dataDF = datasource.fillna(value='n/a_ride', subset='tpep_pickup_hour')
+
+pickup_clean_dataDF.select(hour('pickup_datetime').alias('tpep_pickup_hour'), year('pickup_datetime').alias('tpep_pickup_year')/
+                    month('pickup_datetime').alias('tpep_pickup_hour'), weekofyear('pickup_datetime').alias('tpep_pickup_weekday'))
 
 
 
