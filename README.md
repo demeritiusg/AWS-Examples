@@ -1,15 +1,18 @@
 # AWS Examples
 
-## <ins>Glue ETL (with terraform)<ins>
 ## <ins>IAM Polices<ins>
 ## <ins>Lambda Functions<ins>
+## <ins>IAC<ins>
+* Terraform
+  - Redsfhit ETL
+  - Glue ETL
+* Cloudformation
+  - Data Platform
+  - Redshift
 
-~~<ins>Redshift ETL (with terraform)~~
 
-~~<ins>Kinessis ETL~~
+~~<ins>Kinesis<ins>~~
 
-~~<ins>Data lake (with lakeformation)~~
+~~<ins>Data lake (with lakeformation)<ins>~~
 
-~~<ins>Cloudformation~~
-
-~~<ins>CDK~~
+~~<ins>CDK<ins>~~
