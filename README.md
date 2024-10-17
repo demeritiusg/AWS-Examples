@@ -9,10 +9,9 @@
 * Cloudformation
   - Data Platform
   - Redshift
-
+## <ins>Data lake and Data Warehouse<ins>
+  - DBT
+  - Redshift
 
 ~~<ins>Kinesis<ins>~~
-
-~~<ins>Data lake (with lakeformation)<ins>~~
-
 ~~<ins>CDK<ins>~~
