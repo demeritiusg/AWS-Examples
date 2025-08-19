@@ -1,3 +1,5 @@
+##### no longer vaild
+
 import boto3
 import base64
 import json
@@ -8,8 +10,6 @@ def lambda_kenesis(event, context):
 		
 		
 	data = re.sub('\W+','', payload)
-	
-	#TODO Format dates
 	
 	
 	databasetem = {
