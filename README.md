@@ -1,6 +1,8 @@
 # AWS Examples
 
 ## <ins>IAM Polices<ins>
+  - big_data_etl_iam.json
+  - glue_etl_iam.json
 ## <ins>Lambda Functions<ins>
   - etl_email
   - glue_trigger_lambda
