@@ -2,6 +2,9 @@
 
 ## <ins>IAM Polices<ins>
 ## <ins>Lambda Functions<ins>
+  - etl_email
+  - glue_trigger_lambda
+  - ~~twitter_api_kinesis~~
 ## <ins>IAC<ins>
 * Terraform
   - Redsfhit ETL
