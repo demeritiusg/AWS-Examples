@@ -13,18 +13,18 @@ def nyc_trip_email(event, context):
 	subject = event['email_subject']
 	msg = event['event_msg']
 
-	if None in recipient:
+	if not in recipient:
 		return {
-			'status code':500,
+			'statusCode':400,
 			'body': 'Invailed Email Address'
 		}	
 	
-	ses = boto3.client('ses', region = aws_region)
+	ses = boto3.client('ses', region_name=aws_region)
 
 	try:
-		response = ses.send_mail(
+		response = ses.send_email(
 			Destination={
-				'ToAddress':[
+				'ToAddresses':[
 					recipient
 				]
 			},
@@ -36,12 +36,13 @@ def nyc_trip_email(event, context):
 					},
 				},
 				'Subject': {
-					subject
+					'Data': subject,
+					'Charset': CHARSET
 				},				
 			},
 			Source=sender
 		)
-		msgID = response['MessageID']
+		msgID = response['MessageId']
 	
 	except ClientError as e:
 		print(e.response['Error']['Message'])
